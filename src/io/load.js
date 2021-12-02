@@ -113,15 +113,23 @@ jBinary.loadData = promising(function (source, callback) {
 		callback(new TypeError('Unsupported source type.'));
 	} else
 	if (NODE && /^(https?):\/\//.test(source)) {
-		require('request').get({
-			uri: source,
-			encoding: null
-		}, function (error, response, body) {
-			if (!error && response.statusCode !== 200) {
-				var statusText = require('http').STATUS_CODES[response.statusCode];
-				error = new Error('HTTP Error #' + response.statusCode + ': ' + statusText);
+		// require('request').get({
+		// 	uri: source,
+		// 	encoding: null
+		// }, function (error, response, body) {
+		// 	if (!error && response.statusCode !== 200) {
+		// 		var statusText = require('http').STATUS_CODES[response.statusCode];
+		// 		error = new Error('HTTP Error #' + response.statusCode + ': ' + statusText);
+		// 	}
+		// 	callback(error, body);
+		// });
+		require('axios').get(source, {responseType: 'arraybuffer'}).then(function (response) {
+			if (response.status !== 200) {
+				throw new Error('HTTP error #' + response.status + ': ' + response.statusText);
 			}
-			callback(error, body);
+			callback(null, response.data);
+		}).catch(function (error) {
+			callback(error);
 		});
 	} else
 	if (NODE) {

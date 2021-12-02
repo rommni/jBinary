@@ -33,9 +33,9 @@
     }
   ],
   "dependencies": {
+    "axios": "^0.24.0",
     "es6-promise": "*",
-    "jdataview": "*",
-    "request": "*"
+    "jdataview": "*"
   },
   "devDependencies": {
     "chai": "^1.9.1",

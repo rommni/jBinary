@@ -15,14 +15,16 @@ module.exports = function (grunt) {
 			options: {
 				undef: false, // ignore access to undefined vars since they may be defined in other files
 				'-W079': true, // ignore redefinition of "global" vars since they are actually local
-				'-W020': true // ...and ignore writing to read-only "global" vars
+				'-W020': true, // ...and ignore writing to read-only "global" vars
+				'-W024': true // problem with promise catch keyword
 			},
 			src: ['+(src|test)/**/*.js', '*.js']
 		},
 		after_concat: {
 			options: {
 				indent: false, // ignore broken indentation
-				'-W034': true // ignore duplicate "use strict" since it would be compressed
+				'-W034': true, // ignore duplicate "use strict" since it would be compressed
+				'-W024': true // problem with promise catch keyword
 			},
 			src: 'dist/<%= pkgName %>.js'
 		}
